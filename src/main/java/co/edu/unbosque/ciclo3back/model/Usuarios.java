@@ -10,6 +10,7 @@ public class Usuarios {
 	private String nombre_usuario;
 	private String password;
 	private String usuario;
+	
 	public long getCedula_usuario() {
 		return cedula_usuario;
 	}
