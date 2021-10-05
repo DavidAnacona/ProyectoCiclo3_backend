@@ -41,6 +41,4 @@ public class Usuarios {
 	public void setUsuario(String usuario) {
 		this.usuario = usuario;
 	}
-	
-	
 }
