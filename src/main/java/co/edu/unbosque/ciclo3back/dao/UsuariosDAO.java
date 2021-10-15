@@ -1,6 +1,5 @@
 package co.edu.unbosque.ciclo3back.dao;
 
-import javax.persistence.EntityManager;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
