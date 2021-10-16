@@ -6,9 +6,9 @@ import javax.persistence.*;
 public class proveedores {
 	@Id
 	private long nitproveedor;
+	private String nombre_proveedor;
 	private String ciudad_proveedor;
 	private String direccion_proveedor;
-	private String nombre_proveedor;
 	private String telefono_proveedor;
 	
 	public long getNitproveedor() {

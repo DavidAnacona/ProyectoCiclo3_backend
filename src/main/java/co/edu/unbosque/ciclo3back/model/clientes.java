@@ -6,9 +6,9 @@ import javax.persistence.*;
 public class clientes {
 	@Id
 	private long cedula_cliente;
+	private String nombre_cliente;
 	private String direccion_cliente;
 	private String email_cliente;
-	private String nombre_cliente;
 	private String telefono_cliente;
 	
 	public long getCedula_cliente() {
