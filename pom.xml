@@ -12,7 +12,6 @@
 	<artifactId>ciclo3back</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>ciclo3back</name>
-	<packaging>war</packaging>
 	<description>Project para el ciclo 3</description>
 	<properties>
 		<java.version>11</java.version>
