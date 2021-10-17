@@ -27,7 +27,7 @@ public class UsuariosAPI {
 	@Autowired 
 	private UsuariosDAO usuariosDAO;
 
-	@CrossOrigin(origins = "http://localhost:9001")
+	@CrossOrigin(origins = "http://localhost:3000")
 	@GetMapping("/listar")
 	public List<Usuarios> listar() {
 		return usuariosDAO.findAll();
