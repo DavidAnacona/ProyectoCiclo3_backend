@@ -1,11 +1,13 @@
 package co.edu.unbosque.ciclo3back.api;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,7 +17,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import co.edu.unbosque.ciclo3back.dao.UsuariosDAO;
 import co.edu.unbosque.ciclo3back.dao.mensaje;
 import co.edu.unbosque.ciclo3back.model.Usuarios;
@@ -33,10 +34,11 @@ public class UsuariosAPI {
 		return usuariosDAO.findAll();
 	}
 	
+	
 	@CrossOrigin(origins = "http://localhost:3000")
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@PostMapping("/guardar")
-	public ResponseEntity<?> guardar( @RequestBody Usuarios usuarios, BindingResult bindingResult) {
+	public ResponseEntity<?> guardar(@RequestBody Usuarios usuarios, BindingResult bindingResult) {
 		if(bindingResult.hasErrors())
             return new ResponseEntity(new mensaje("Datos mal ingresados"), HttpStatus.BAD_REQUEST);
         if(usuariosDAO.existsById(usuarios.getCedula_usuario()))
@@ -45,6 +47,23 @@ public class UsuariosAPI {
         return new ResponseEntity(new mensaje("Usuario agregado con exito"), HttpStatus.CREATED);
 	}
 
+	@CrossOrigin(origins = "http://localhost:3000")
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@PostMapping("/login")
+	public ResponseEntity<Usuarios> prueba(@RequestBody Usuarios usuario, BindingResult bindingResult){
+		List<Usuarios> lista = usuariosDAO.findAll();
+		for(Usuarios usuario1 : lista) {
+			if(usuario1.getUsuario().equals(usuario.getUsuario())) {
+				if(usuario1.getPassword().equals(usuario.getPassword())){
+					return new ResponseEntity(usuario1, HttpStatus.OK);
+				}else {
+					return new ResponseEntity(new mensaje("Usuario o contraseña incorrecta"), HttpStatus.NOT_FOUND);
+				}
+			}
+		}
+		return new ResponseEntity(new mensaje("Primero debe de registar usuarios"), HttpStatus.NOT_FOUND);
+	}
+	
 	@CrossOrigin(origins = "http://localhost:3000")
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@PutMapping("/actualizar/{id}")

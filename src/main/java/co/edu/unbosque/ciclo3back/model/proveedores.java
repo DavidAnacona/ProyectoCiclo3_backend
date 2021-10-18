@@ -4,6 +4,7 @@ import javax.persistence.*;
 
 @Entity
 public class proveedores {
+	
 	@Id
 	private long nitproveedor;
 	private String nombre_proveedor;
@@ -41,9 +42,4 @@ public class proveedores {
 	public void setTelefono_proveedor(String telefono_proveedor) {
 		this.telefono_proveedor = telefono_proveedor;
 	}
-
-	
 }
-
-
-	
