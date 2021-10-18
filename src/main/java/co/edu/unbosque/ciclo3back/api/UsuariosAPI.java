@@ -61,7 +61,7 @@ public class UsuariosAPI {
 				}
 			}
 		}
-		return new ResponseEntity(new mensaje("Primero debe de registar usuarios"), HttpStatus.NOT_FOUND);
+		return new ResponseEntity(new mensaje("Usuario no registrado"), HttpStatus.NOT_FOUND);
 	}
 	
 	@CrossOrigin(origins = "http://localhost:3000")
