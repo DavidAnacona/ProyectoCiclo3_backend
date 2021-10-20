@@ -28,14 +28,14 @@ public class UsuariosAPI {
 	@Autowired 
 	private UsuariosDAO usuariosDAO;
 
-	@CrossOrigin(origins = {"http://localhost:3000", "https://ciclo3-mintic-frontend.herokuapp.com"})
+	@CrossOrigin(origins = {"http://localhost:3000", "https://ciclo3-mintic-front.herokuapp.com"})
 	@GetMapping("/listar")
 	public List<Usuarios> listar() {
 		return usuariosDAO.findAll();
 	}
 	
 	
-	@CrossOrigin(origins = {"http://localhost:3000", "https://ciclo3-mintic-frontend.herokuapp.com"})
+	@CrossOrigin(origins = {"http://localhost:3000", "https://ciclo3-mintic-front.herokuapp.com"})
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@PostMapping("/guardar")
 	public ResponseEntity<?> guardar(@RequestBody Usuarios usuarios, BindingResult bindingResult) {
@@ -47,7 +47,7 @@ public class UsuariosAPI {
         return new ResponseEntity(new mensaje("Usuario agregado con exito"), HttpStatus.CREATED);
 	}
 
-	@CrossOrigin(origins = {"http://localhost:3000", "https://ciclo3-mintic-frontend.herokuapp.com"})
+	@CrossOrigin(origins = {"http://localhost:3000", "https://ciclo3-mintic-front.herokuapp.com"})
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@PostMapping("/login")
 	public ResponseEntity<Usuarios> prueba(@RequestBody Usuarios usuario, BindingResult bindingResult){
@@ -64,7 +64,7 @@ public class UsuariosAPI {
 		return new ResponseEntity(new mensaje("Usuario no registrado"), HttpStatus.NOT_FOUND);
 	}
 	
-	@CrossOrigin(origins = {"http://localhost:3000", "https://ciclo3-mintic-frontend.herokuapp.com"})
+	@CrossOrigin(origins = {"http://localhost:3000", "https://ciclo3-mintic-front.herokuapp.com"})
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@PutMapping("/actualizar/{id}")
 	public ResponseEntity<?> actualizar(@RequestBody Usuarios usuarios, BindingResult bindingResult, @PathVariable("id") Long id) {
@@ -82,7 +82,7 @@ public class UsuariosAPI {
         return new ResponseEntity(new mensaje("Usuario actualizado"), HttpStatus.OK);
 	}
 	
-	@CrossOrigin(origins = {"http://localhost:3000", "https://ciclo3-mintic-frontend.herokuapp.com"})
+	@CrossOrigin(origins = {"http://localhost:3000", "https://ciclo3-mintic-front.herokuapp.com"})
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@GetMapping("/detalle/{id}")
 	public ResponseEntity<Usuarios> consultar(@PathVariable("id") Long id){
@@ -92,7 +92,7 @@ public class UsuariosAPI {
 		return new ResponseEntity(usuario, HttpStatus.OK);
 	}
 	
-	@CrossOrigin(origins = {"http://localhost:3000", "https://ciclo3-mintic-frontend.herokuapp.com"})
+	@CrossOrigin(origins = {"http://localhost:3000", "https://ciclo3-mintic-front.herokuapp.com"})
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@DeleteMapping("/eliminar/{id}")
 	public ResponseEntity<?> eliminar(@PathVariable("id") Long id) {
