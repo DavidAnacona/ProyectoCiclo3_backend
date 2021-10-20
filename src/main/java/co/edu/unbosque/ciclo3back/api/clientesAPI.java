@@ -25,13 +25,13 @@ public class clientesAPI {
 	@Autowired 
 	private clientesDAO clientesDAO;
 	
-	@CrossOrigin(origins = "http://localhost:3000")
+	@CrossOrigin(origins = {"http://localhost:3000", "https://ciclo3-mintic-frontend.herokuapp.com"})
 	@GetMapping("/listar")
 	public List<clientes> listar() {
 		return clientesDAO.findAll();
 	}
 
-	@CrossOrigin(origins = "http://localhost:3000")
+	@CrossOrigin(origins = {"http://localhost:3000", "https://ciclo3-mintic-frontend.herokuapp.com"})
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@PostMapping("/guardar")
 	public ResponseEntity<?> guardar( @RequestBody clientes cliente, BindingResult bindingResult) {
@@ -43,7 +43,7 @@ public class clientesAPI {
         return new ResponseEntity(new mensaje("Cliente agregado con exito"), HttpStatus.CREATED);
 	}
 	
-	@CrossOrigin(origins = "http://localhost:3000")
+	@CrossOrigin(origins = {"http://localhost:3000", "https://ciclo3-mintic-frontend.herokuapp.com"})
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@PutMapping("/actualizar/{id}")
 	public ResponseEntity<?> actualizar(@RequestBody clientes cliente, BindingResult bindingResult, @PathVariable("id") Long id) {
@@ -60,7 +60,7 @@ public class clientesAPI {
         return new ResponseEntity(new mensaje("Cliente actualizado"), HttpStatus.OK);
 	}
 	
-	@CrossOrigin(origins = "http://localhost:3000")
+	@CrossOrigin(origins = {"http://localhost:3000", "https://ciclo3-mintic-frontend.herokuapp.com"})
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@GetMapping("/detalle/{id}")
 	public ResponseEntity<clientes> consultar(@PathVariable("id") Long id){
@@ -70,7 +70,7 @@ public class clientesAPI {
 		return new ResponseEntity(cliente, HttpStatus.OK);
 	}
 	
-	@CrossOrigin(origins = "http://localhost:3000")
+	@CrossOrigin(origins = {"http://localhost:3000", "https://ciclo3-mintic-frontend.herokuapp.com"})
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@DeleteMapping("/eliminar/{id}")
 	public ResponseEntity<?> eliminar(@PathVariable("id") Long id) {

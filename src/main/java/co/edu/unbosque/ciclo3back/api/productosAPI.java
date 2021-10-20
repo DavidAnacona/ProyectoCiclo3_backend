@@ -27,13 +27,13 @@ public class productosAPI {
 	@Autowired 
 	private productosDAO productosDAO;
 
-	@CrossOrigin(origins = "http://localhost:3000")
+	@CrossOrigin(origins = {"http://localhost:3000", "https://ciclo3-mintic-frontend.herokuapp.com"})
 	@GetMapping("/listar")
 	public List<productos> listar() {
 		return productosDAO.findAll();
 	}
 	
-	@CrossOrigin(origins = "http://localhost:3000")
+	@CrossOrigin(origins = {"http://localhost:3000", "https://ciclo3-mintic-frontend.herokuapp.com"})
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@PostMapping("/guardar")
 	public ResponseEntity<?> guardar( @RequestBody productos producto, BindingResult bindingResult) {
@@ -45,7 +45,7 @@ public class productosAPI {
         return new ResponseEntity(new mensaje("Producto agregado con exito"), HttpStatus.CREATED);
 	}
 	
-	@CrossOrigin(origins = "http://localhost:3000")
+	@CrossOrigin(origins = {"http://localhost:3000", "https://ciclo3-mintic-frontend.herokuapp.com"})
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@PutMapping("/actualizar/{id}")
 	public ResponseEntity<?> actualizar(@RequestBody productos producto, BindingResult bindingResult, @PathVariable("id") Long id) {
@@ -63,7 +63,7 @@ public class productosAPI {
         return new ResponseEntity(new mensaje("Producto actualizado"), HttpStatus.OK);
 	}
 
-	@CrossOrigin(origins = "http://localhost:3000")
+	@CrossOrigin(origins = {"http://localhost:3000", "https://ciclo3-mintic-frontend.herokuapp.com"})
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@GetMapping("/detalle/{id}")
 	public ResponseEntity<productos> consultar(@PathVariable("id") Long id){
@@ -73,7 +73,7 @@ public class productosAPI {
 		return new ResponseEntity(producto, HttpStatus.OK);
 	}
 	
-	@CrossOrigin(origins = "http://localhost:3000")
+	@CrossOrigin(origins = {"http://localhost:3000", "https://ciclo3-mintic-frontend.herokuapp.com"})
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@DeleteMapping("/eliminar/{id}")
 	public ResponseEntity<?> eliminar(@PathVariable("id") Long id) {
