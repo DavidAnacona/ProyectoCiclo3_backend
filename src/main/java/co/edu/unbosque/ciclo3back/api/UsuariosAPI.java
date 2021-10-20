@@ -34,7 +34,7 @@ public class UsuariosAPI {
 		return usuariosDAO.findAll();
 	}
 	
-	
+	//Probando deploy automatico en heroku
 	@CrossOrigin(origins = {"http://localhost:3000", "https://ciclo3-mintic-front.herokuapp.com"})
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@PostMapping("/guardar")
