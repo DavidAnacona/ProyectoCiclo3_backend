@@ -1,5 +1,7 @@
 package co.edu.unbosque.ciclo3back.api;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -41,6 +43,14 @@ public class ventasAPI {
             return new ResponseEntity(new mensaje("Datos mal ingresados"), HttpStatus.BAD_REQUEST);
         if(ventasDAO.existsById(venta.getCodigo_venta()))
             return new ResponseEntity(new mensaje("Ya existe una venta con el codigo ingresado"), HttpStatus.BAD_REQUEST);
+        
+        double valor_venta = Double.parseDouble(venta.getValor_venta().toString());
+        BigDecimal iva = new BigDecimal(valor_venta * 0.19);
+        iva = iva.setScale(3, RoundingMode.HALF_UP);
+        venta.setIvaventa(String.valueOf(iva));
+        BigDecimal total = BigDecimal.valueOf(valor_venta - iva.doubleValue());
+        total = total.setScale(3, RoundingMode.HALF_UP);
+        venta.setTotal_venta(String.valueOf(total));
         ventasDAO.save(venta);
         return new ResponseEntity(new mensaje("Venta agregado con exito"), HttpStatus.CREATED);
 	}
@@ -54,11 +64,16 @@ public class ventasAPI {
         if(!ventasDAO.existsById(id))
             return new ResponseEntity(new mensaje("No existe la venta a actualizar"), HttpStatus.NOT_FOUND);
         ventas ventaActualizar = ventasDAO.findById(id).get();
+        double valor_venta = Double.parseDouble(venta.getValor_venta().toString());
+        BigDecimal iva = new BigDecimal(valor_venta * 0.19);
+        iva = iva.setScale(3, RoundingMode.HALF_UP);
+        BigDecimal total = BigDecimal.valueOf(valor_venta - iva.doubleValue());
+        total = total.setScale(3, RoundingMode.HALF_UP);
         ventaActualizar.setCodigo_venta(venta.getCodigo_venta());
         ventaActualizar.setCedula_cliente(venta.getCedula_cliente());
         ventaActualizar.setCedula_usuario(venta.getCedula_usuario());
-        ventaActualizar.setIvaventa(venta.getIvaventa());
-        ventaActualizar.setTotal_venta(venta.getTotal_venta());
+        ventaActualizar.setIvaventa(String.valueOf(iva));
+        ventaActualizar.setTotal_venta(String.valueOf(total));
         ventaActualizar.setValor_venta(venta.getValor_venta());
         ventasDAO.save(ventaActualizar);
         return new ResponseEntity(new mensaje("Venta actualizada"), HttpStatus.OK);

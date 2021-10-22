@@ -1,5 +1,7 @@
 package co.edu.unbosque.ciclo3back.api;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -41,6 +43,10 @@ public class productosAPI {
             return new ResponseEntity(new mensaje("Datos mal ingresados"), HttpStatus.BAD_REQUEST);
         if(productosDAO.existsById(producto.getCodigo_producto()))
             return new ResponseEntity(new mensaje("Ya existe un producto con el codigo ingresado"), HttpStatus.BAD_REQUEST);
+        double precio_venta = Double.parseDouble(producto.getPrecio_compra().toString());
+        BigDecimal iva = new BigDecimal(precio_venta * 0.19);
+        iva = iva.setScale(3, RoundingMode.HALF_UP);
+        producto.setIvacompra(String.valueOf(iva));
         productosDAO.save(producto);
         return new ResponseEntity(new mensaje("Producto agregado con exito"), HttpStatus.CREATED);
 	}
@@ -54,7 +60,10 @@ public class productosAPI {
         if(!productosDAO.existsById(id))
             return new ResponseEntity(new mensaje("No existe el producto a actualizar"), HttpStatus.NOT_FOUND);
         productos productoActualizar = productosDAO.findById(id).get();
-        productoActualizar.setIvacompra(producto.getIvacompra());
+        double precio_venta = Double.parseDouble(producto.getPrecio_compra().toString());
+        BigDecimal iva = new BigDecimal(precio_venta * 0.19);
+        iva = iva.setScale(3, RoundingMode.HALF_UP);
+        productoActualizar.setIvacompra(String.valueOf(iva));
         productoActualizar.setNitproveedor(producto.getNitproveedor());
         productoActualizar.setNombre_producto(producto.getNombre_producto());
         productoActualizar.setPrecio_compra(producto.getPrecio_compra());

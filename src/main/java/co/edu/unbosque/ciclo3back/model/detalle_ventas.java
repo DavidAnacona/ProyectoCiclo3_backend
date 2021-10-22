@@ -55,6 +55,4 @@ public class detalle_ventas {
 	public void setValoriva(String valoriva) {
 		this.valoriva = valoriva;
 	}
-
-
 }
