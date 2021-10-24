@@ -44,8 +44,7 @@ public class productosAPI {
         if(productosDAO.existsById(producto.getCodigo_producto()))
             return new ResponseEntity(new mensaje("Ya existe un producto con el codigo ingresado"), HttpStatus.BAD_REQUEST);
         double precio_venta = Double.parseDouble(producto.getPrecio_compra().toString());
-        BigDecimal iva = new BigDecimal(precio_venta * 0.19);
-        iva = iva.setScale(3, RoundingMode.HALF_UP);
+        int iva = (int) (precio_venta * 0.19);
         producto.setIvacompra(String.valueOf(iva));
         productosDAO.save(producto);
         return new ResponseEntity(new mensaje("Producto agregado con exito"), HttpStatus.CREATED);
@@ -61,8 +60,7 @@ public class productosAPI {
             return new ResponseEntity(new mensaje("No existe el producto a actualizar"), HttpStatus.NOT_FOUND);
         productos productoActualizar = productosDAO.findById(id).get();
         double precio_venta = Double.parseDouble(producto.getPrecio_compra().toString());
-        BigDecimal iva = new BigDecimal(precio_venta * 0.19);
-        iva = iva.setScale(3, RoundingMode.HALF_UP);
+        int iva = (int) (precio_venta * 0.19);
         productoActualizar.setIvacompra(String.valueOf(iva));
         productoActualizar.setNitproveedor(producto.getNitproveedor());
         productoActualizar.setNombre_producto(producto.getNombre_producto());

@@ -43,13 +43,10 @@ public class ventasAPI {
             return new ResponseEntity(new mensaje("Datos mal ingresados"), HttpStatus.BAD_REQUEST);
         if(ventasDAO.existsById(venta.getCodigo_venta()))
             return new ResponseEntity(new mensaje("Ya existe una venta con el codigo ingresado"), HttpStatus.BAD_REQUEST);
-        
         double valor_venta = Double.parseDouble(venta.getTotal_venta().toString());
-        BigDecimal iva = new BigDecimal(valor_venta * 0.19);
-        iva = iva.setScale(3, RoundingMode.HALF_UP);
+        int iva = (int) (valor_venta * 0.19);
+        int total = (int) (valor_venta - iva);
         venta.setIvaventa(String.valueOf(iva));
-        BigDecimal total = BigDecimal.valueOf(valor_venta - iva.doubleValue());
-        total = total.setScale(3, RoundingMode.HALF_UP);
         venta.setValor_venta(String.valueOf(total));
         ventasDAO.save(venta);
         return new ResponseEntity(new mensaje("Venta agregado con exito"), HttpStatus.CREATED);
@@ -64,11 +61,9 @@ public class ventasAPI {
         if(!ventasDAO.existsById(id))
             return new ResponseEntity(new mensaje("No existe la venta a actualizar"), HttpStatus.NOT_FOUND);
         ventas ventaActualizar = ventasDAO.findById(id).get();
-        double valor_venta = Double.parseDouble(venta.getValor_venta().toString());
-        BigDecimal iva = new BigDecimal(valor_venta * 0.19);
-        iva = iva.setScale(3, RoundingMode.HALF_UP);
-        BigDecimal total = BigDecimal.valueOf(valor_venta - iva.doubleValue());
-        total = total.setScale(3, RoundingMode.HALF_UP);
+        double valor_venta = Double.parseDouble(venta.getTotal_venta().toString());
+        int iva = (int) (valor_venta * 0.19);
+        int total = (int) (valor_venta - iva);
         ventaActualizar.setCodigo_venta(venta.getCodigo_venta());
         ventaActualizar.setCedula_cliente(venta.getCedula_cliente());
         ventaActualizar.setCedula_usuario(venta.getCedula_usuario());
