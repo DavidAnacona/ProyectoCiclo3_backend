@@ -1,5 +1,7 @@
 package co.edu.unbosque.ciclo3back.api;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -41,6 +43,13 @@ public class detalle_ventasAPI {
             return new ResponseEntity(new mensaje("Datos mal ingresados"), HttpStatus.BAD_REQUEST);
         if(detalle_ventasDAO.existsById(detalle_venta.getCodigo_detalle_venta()))
             return new ResponseEntity(new mensaje("Ya existe un detalle de venta con el codigo ingresado"), HttpStatus.BAD_REQUEST);
+        double valor_venta = Double.parseDouble(detalle_venta.getValor_venta().toString());
+        BigDecimal iva = new BigDecimal(valor_venta * 0.19);
+        iva = iva.setScale(3, RoundingMode.HALF_UP);
+        detalle_venta.setValoriva(String.valueOf(iva));
+        BigDecimal total = BigDecimal.valueOf(valor_venta - iva.doubleValue());
+        total = total.setScale(3, RoundingMode.HALF_UP);
+        detalle_venta.setValor_total(String.valueOf(total));
         detalle_ventasDAO.save(detalle_venta);
         return new ResponseEntity(new mensaje("Detalle venta agregada con exito"), HttpStatus.CREATED);
 	}
@@ -54,13 +63,18 @@ public class detalle_ventasAPI {
         if(!detalle_ventasDAO.existsById(id))
             return new ResponseEntity(new mensaje("No existe el detalle de venta a actualizar"), HttpStatus.NOT_FOUND);
         detalle_ventas detalleActualizar = detalle_ventasDAO.findById(id).get();
+        double valor_venta = Double.parseDouble(detalle_venta.getValor_venta().toString());
+        BigDecimal iva = new BigDecimal(valor_venta * 0.19);
+        iva = iva.setScale(3, RoundingMode.HALF_UP);
+        BigDecimal total = BigDecimal.valueOf(valor_venta - iva.doubleValue());
+        total = total.setScale(3, RoundingMode.HALF_UP);
         detalleActualizar.setCodigo_detalle_venta(detalle_venta.getCodigo_detalle_venta());
         detalleActualizar.setCantidad_producto(detalle_venta.getCantidad_producto());
         detalleActualizar.setCodigo_producto(detalle_venta.getCodigo_producto());
         detalleActualizar.setCodigo_venta(detalle_venta.getCodigo_venta());
-        detalleActualizar.setValor_total(detalle_venta.getValor_total());
+        detalleActualizar.setValor_total(String.valueOf(total));
         detalleActualizar.setValor_venta(detalle_venta.getValor_venta());
-        detalleActualizar.setValoriva(detalle_venta.getValoriva());
+        detalleActualizar.setValoriva(String.valueOf(iva));
         detalle_ventasDAO.save(detalleActualizar);
         return new ResponseEntity(new mensaje("Detalle venta actualizada"), HttpStatus.OK);
 	}

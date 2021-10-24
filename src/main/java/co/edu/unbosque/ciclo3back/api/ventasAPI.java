@@ -44,13 +44,13 @@ public class ventasAPI {
         if(ventasDAO.existsById(venta.getCodigo_venta()))
             return new ResponseEntity(new mensaje("Ya existe una venta con el codigo ingresado"), HttpStatus.BAD_REQUEST);
         
-        double valor_venta = Double.parseDouble(venta.getValor_venta().toString());
+        double valor_venta = Double.parseDouble(venta.getTotal_venta().toString());
         BigDecimal iva = new BigDecimal(valor_venta * 0.19);
         iva = iva.setScale(3, RoundingMode.HALF_UP);
         venta.setIvaventa(String.valueOf(iva));
         BigDecimal total = BigDecimal.valueOf(valor_venta - iva.doubleValue());
         total = total.setScale(3, RoundingMode.HALF_UP);
-        venta.setTotal_venta(String.valueOf(total));
+        venta.setValor_venta(String.valueOf(total));
         ventasDAO.save(venta);
         return new ResponseEntity(new mensaje("Venta agregado con exito"), HttpStatus.CREATED);
 	}
