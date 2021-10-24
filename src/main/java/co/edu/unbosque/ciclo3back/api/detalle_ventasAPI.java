@@ -69,6 +69,7 @@ public class detalle_ventasAPI {
         detalleActualizar.setCodigo_producto(detalle_venta.getCodigo_producto());
         detalleActualizar.setCodigo_venta(detalle_venta.getCodigo_venta());
         detalleActualizar.setValor_total(String.valueOf(total));
+        detalleActualizar.setNombre_producto(detalle_venta.getNombre_producto());
         detalleActualizar.setValor_venta(detalle_venta.getValor_venta());
         detalleActualizar.setValoriva(String.valueOf(iva));
         detalle_ventasDAO.save(detalleActualizar);

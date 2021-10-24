@@ -8,6 +8,7 @@ public class detalle_ventas {
 	private long codigo_detalle_venta;
 	private String cantidad_producto;
 	private String codigo_producto;
+	private String nombre_producto;
 	private String codigo_venta;
 	private String valor_total;
 	private String valor_venta;
@@ -54,5 +55,11 @@ public class detalle_ventas {
 	}
 	public void setValoriva(String valoriva) {
 		this.valoriva = valoriva;
+	}
+	public String getNombre_producto() {
+		return nombre_producto;
+	}
+	public void setNombre_producto(String nombre_producto) {
+		this.nombre_producto = nombre_producto;
 	}
 }
