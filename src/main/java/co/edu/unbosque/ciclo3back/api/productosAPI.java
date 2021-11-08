@@ -1,10 +1,13 @@
 package co.edu.unbosque.ciclo3back.api;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,11 +29,13 @@ public class productosAPI {
 	@Autowired 
 	private productosDAO productosDAO;
 
+	@CrossOrigin(origins = {"http://localhost:3000", "https://ciclo3-mintic-front.herokuapp.com"})
 	@GetMapping("/listar")
 	public List<productos> listar() {
 		return productosDAO.findAll();
 	}
 	
+	@CrossOrigin(origins = {"http://localhost:3000", "https://ciclo3-mintic-front.herokuapp.com"})
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@PostMapping("/guardar")
 	public ResponseEntity<?> guardar( @RequestBody productos producto, BindingResult bindingResult) {
@@ -38,10 +43,14 @@ public class productosAPI {
             return new ResponseEntity(new mensaje("Datos mal ingresados"), HttpStatus.BAD_REQUEST);
         if(productosDAO.existsById(producto.getCodigo_producto()))
             return new ResponseEntity(new mensaje("Ya existe un producto con el codigo ingresado"), HttpStatus.BAD_REQUEST);
+        double precio_venta = Double.parseDouble(producto.getPrecio_compra().toString());
+        int iva = (int) (precio_venta * 0.19);
+        producto.setIvacompra(String.valueOf(iva));
         productosDAO.save(producto);
         return new ResponseEntity(new mensaje("Producto agregado con exito"), HttpStatus.CREATED);
 	}
 	
+	@CrossOrigin(origins = {"http://localhost:3000", "https://ciclo3-mintic-front.herokuapp.com"})
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@PutMapping("/actualizar/{id}")
 	public ResponseEntity<?> actualizar(@RequestBody productos producto, BindingResult bindingResult, @PathVariable("id") Long id) {
@@ -50,7 +59,9 @@ public class productosAPI {
         if(!productosDAO.existsById(id))
             return new ResponseEntity(new mensaje("No existe el producto a actualizar"), HttpStatus.NOT_FOUND);
         productos productoActualizar = productosDAO.findById(id).get();
-        productoActualizar.setIvacompra(producto.getIvacompra());
+        double precio_venta = Double.parseDouble(producto.getPrecio_compra().toString());
+        int iva = (int) (precio_venta * 0.19);
+        productoActualizar.setIvacompra(String.valueOf(iva));
         productoActualizar.setNitproveedor(producto.getNitproveedor());
         productoActualizar.setNombre_producto(producto.getNombre_producto());
         productoActualizar.setPrecio_compra(producto.getPrecio_compra());
@@ -59,6 +70,7 @@ public class productosAPI {
         return new ResponseEntity(new mensaje("Producto actualizado"), HttpStatus.OK);
 	}
 
+	@CrossOrigin(origins = {"http://localhost:3000", "https://ciclo3-mintic-front.herokuapp.com"})
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@GetMapping("/detalle/{id}")
 	public ResponseEntity<productos> consultar(@PathVariable("id") Long id){
@@ -68,6 +80,7 @@ public class productosAPI {
 		return new ResponseEntity(producto, HttpStatus.OK);
 	}
 	
+	@CrossOrigin(origins = {"http://localhost:3000", "https://ciclo3-mintic-front.herokuapp.com"})
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@DeleteMapping("/eliminar/{id}")
 	public ResponseEntity<?> eliminar(@PathVariable("id") Long id) {

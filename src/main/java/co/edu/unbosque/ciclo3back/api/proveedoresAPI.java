@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,11 +27,13 @@ public class proveedoresAPI {
 	@Autowired 
 	private proveedoresDAO proveedoresDAO;
 
+	@CrossOrigin(origins = {"http://localhost:3000", "https://ciclo3-mintic-front.herokuapp.com"})
 	@GetMapping("/listar")
 	public List<proveedores> listar() {
 		return proveedoresDAO.findAll();
 	}
 	
+	@CrossOrigin(origins = {"http://localhost:3000", "https://ciclo3-mintic-front.herokuapp.com"})
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@PostMapping("/guardar")
 	public ResponseEntity<?> guardar( @RequestBody proveedores proveedor, BindingResult bindingResult) {
@@ -42,6 +45,7 @@ public class proveedoresAPI {
         return new ResponseEntity(new mensaje("Proveedor agregado con exito"), HttpStatus.CREATED);
 	}
 	
+	@CrossOrigin(origins = {"http://localhost:3000", "https://ciclo3-mintic-front.herokuapp.com"})
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@PutMapping("/actualizar/{id}")
 	public ResponseEntity<?> actualizar(@RequestBody proveedores proveedor, BindingResult bindingResult, @PathVariable("id") Long id) {
@@ -58,6 +62,7 @@ public class proveedoresAPI {
         return new ResponseEntity(new mensaje("Proveedor actualizado"), HttpStatus.OK);
 	}
 
+	@CrossOrigin(origins = {"http://localhost:3000", "https://ciclo3-mintic-front.herokuapp.com"})
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@GetMapping("/detalle/{id}")
 	public ResponseEntity<proveedores> consultar(@PathVariable("id") Long id){
@@ -67,6 +72,7 @@ public class proveedoresAPI {
 		return new ResponseEntity(proveedor, HttpStatus.OK);
 	}
 	
+	@CrossOrigin(origins = {"http://localhost:3000", "https://ciclo3-mintic-front.herokuapp.com"})
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@DeleteMapping("/eliminar/{id}")
 	public ResponseEntity<?> eliminar(@PathVariable("id") Long id) {
